@@ -112,7 +112,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="MDEg9l0K-WMPojK1ca4_" name="Архитектура">
-    <mxGraphModel dx="1491" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1044" dy="556" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -170,10 +170,10 @@
         <mxCell id="GRmYI028ENISRuTQvqwU-45" value="3. Хранилище данных" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="160" y="370" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GRmYI028ENISRuTQvqwU-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="GRmYI028ENISRuTQvqwU-48" target="GRmYI028ENISRuTQvqwU-51" edge="1">
+        <mxCell id="GRmYI028ENISRuTQvqwU-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeColor=#00C900;" parent="1" source="GRmYI028ENISRuTQvqwU-48" target="GRmYI028ENISRuTQvqwU-51" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="2EiJOh1qKj6G0zUu_P6E-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="GRmYI028ENISRuTQvqwU-48" target="2EiJOh1qKj6G0zUu_P6E-2" edge="1">
+        <mxCell id="2EiJOh1qKj6G0zUu_P6E-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#00C900;" parent="1" source="GRmYI028ENISRuTQvqwU-48" target="2EiJOh1qKj6G0zUu_P6E-2" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="400" y="730" />
@@ -181,19 +181,19 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="GRmYI028ENISRuTQvqwU-48" value="Симулятор полета" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="GRmYI028ENISRuTQvqwU-48" value="Симулятор полета" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00C900;" parent="1" vertex="1">
           <mxGeometry x="340" y="620" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GRmYI028ENISRuTQvqwU-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="GRmYI028ENISRuTQvqwU-51" target="GRmYI028ENISRuTQvqwU-48" edge="1">
+        <mxCell id="GRmYI028ENISRuTQvqwU-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;strokeColor=#00C900;" parent="1" source="GRmYI028ENISRuTQvqwU-51" target="GRmYI028ENISRuTQvqwU-48" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="GRmYI028ENISRuTQvqwU-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="GRmYI028ENISRuTQvqwU-51" target="GRmYI028ENISRuTQvqwU-43" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="2EiJOh1qKj6G0zUu_P6E-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="GRmYI028ENISRuTQvqwU-51" target="2EiJOh1qKj6G0zUu_P6E-2" edge="1">
+        <mxCell id="2EiJOh1qKj6G0zUu_P6E-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#00C900;" parent="1" source="GRmYI028ENISRuTQvqwU-51" target="2EiJOh1qKj6G0zUu_P6E-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="GRmYI028ENISRuTQvqwU-51" value="Симулятор камеры" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="GRmYI028ENISRuTQvqwU-51" value="Симулятор камеры" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00C900;" parent="1" vertex="1">
           <mxGeometry x="490" y="620" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="GRmYI028ENISRuTQvqwU-52" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="GRmYI028ENISRuTQvqwU-33" target="GRmYI028ENISRuTQvqwU-48" edge="1">
@@ -213,7 +213,7 @@
         <mxCell id="GRmYI028ENISRuTQvqwU-55" value="0. Клиент" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="430" y="60" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="2EiJOh1qKj6G0zUu_P6E-2" value="Отрисовщик" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="2EiJOh1qKj6G0zUu_P6E-2" value="Отрисовщик" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#00C900;" parent="1" vertex="1">
           <mxGeometry x="680" y="620" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="fK8w7w3UFevLjUmsA4vr-1" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Компоненты системы&lt;/h1&gt;&lt;p&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Связь -- беспроводные средства связи, передающие программы клиента в систему.&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Интерпретатор -- интерпретирует полученные программы. Получает текст программы и на его основе создает управляющие команды, которые передаются обратно в систему управления.&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Хранилище данных -- хранит сделанные снимки и зоны с ограничениями для использования камеры.&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Центральная система управления -- перенаправляет команды между другими модулями.&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Система контроля орбиты -- контролирует параметры орбиты спутника, может передавать команды на выход на новую орбиту.&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font size=&quot;3&quot;&gt;Система контроля оптики -- контролирует камеру спутника. Отправляет команды на получение снимков, получает снимки с камеры, а также отправляет их на отрисовку.&lt;/font&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
