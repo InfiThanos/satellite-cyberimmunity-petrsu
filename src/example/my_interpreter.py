@@ -56,16 +56,16 @@ class MyInterpreter(BaseCustomProcess):
                                         list_comands.append((operation, parameters))
                                     elif re.match(r'ADD ZONE d+ \d+\.\d+ \d+\.\d+ \d+\.\d \d+\.\d+$', line):
                                         res_split = line.split()
-                                        operation = res_split[0]
-                                        parameters = res_split[1:]
+                                        operation = res_split[0] + ' ' + res_split[1]
+                                        parameters = res_split[2:]
                                         parameters[0] = int(parameters[0])
                                         for i in range(1, 5):
                                             parameters[i] = float(parameters[i])
                                         list_comands.append((operation, parameters))
                                     elif re.match(r'REMOVE ZONE d+$', line):
                                         res_split = line.split()
-                                        operation = res_split[0]
-                                        parameters = res_split[1:]
+                                        operation = res_split[0] + ' ' + res_split[1]
+                                        parameters = res_split[2:]
                                         parameters[0] = int(parameters[0])
                                         list_comands.append((operation, parameters))
                                     elif line == 'MAKE PHOTO':
