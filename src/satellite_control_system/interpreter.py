@@ -9,7 +9,7 @@ from src.system.config import ORBIT_CONTROL_QUEUE_NAME, DEFAULT_LOG_LEVEL, LOG_E
 
 import re
 
-class MyInterpreter(BaseCustomProcess):
+class Interpreter(BaseCustomProcess):
     """ Модуль интерпретатора """
     log_prefix = "[INTERPRETER]"
     event_source_name = INTERPRETER_QUEUE_NAME

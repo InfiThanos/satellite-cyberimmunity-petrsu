@@ -11,7 +11,7 @@ from src.system.config import DEFAULT_LOG_LEVEL, LOG_ERROR, LOG_INFO
 
 from hashlib import sha512
 
-class MyAuthorizationCenter(BaseCustomProcess):
+class AuthorizationCenter(BaseCustomProcess):
     """ Модуль центра авторизации """
     log_prefix = "[AUTHORIZATION]"
     event_source_name = AUTHORIZATION_CENTER_QUEUE_NAME

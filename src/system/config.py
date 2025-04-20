@@ -1,7 +1,9 @@
 SATELITE_QUEUE_NAME = "satellite"
 ORBIT_DRAWER_QUEUE_NAME = "orbit_drawer"
 OPTICS_CONTROL_QUEUE_NAME = "optics_control"
+ZONE_CHECK_QUEUE_NAME = "zone_check"
 ORBIT_CONTROL_QUEUE_NAME = "orbit_control"
+ORBIT_CHECK_QUEUE_NAME = "orbit_check"
 CAMERA_QUEUE_NAME = "camera"
 SECURITY_MONITOR_QUEUE_NAME = "security"
 INTERPRETER_QUEUE_NAME = "interpreter"
@@ -18,3 +20,4 @@ LOG_DEBUG = 3
 CRITICALITY_STR = [
     "ОТКАЗ", "ОШИБКА", "ИНФО", "ОТЛАДКА"
 ]
+
