@@ -56,7 +56,7 @@ class MyAuthorizationCenter(BaseCustomProcess):
                               operation='get username and password', 
                               parameters=None))
                         while(True):
-                            while (event.empty()):    #жду, когда придёт ответ авторизации
+                            while (self._events_q.empty()):    #жду, когда придёт ответ авторизации
                                 pass
                             event2: Event = self._events_q.get_nowait()
                             if event2.operation == 'set username and password':
