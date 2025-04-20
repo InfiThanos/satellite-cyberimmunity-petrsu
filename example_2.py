@@ -128,7 +128,7 @@ if __name__ == '__main__':
                 source=None,
                 destination="camera",
                 operation="request_photo",
-                parameters=None))
+                 parameters=None))
     sleep(1)
     camera_q.put(
         Event(
