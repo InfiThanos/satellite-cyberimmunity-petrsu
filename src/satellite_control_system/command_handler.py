@@ -74,7 +74,7 @@ class CommandHandler(BaseCustomProcess):
                                                 q: Queue = self._queues_dir.get_queue(CENTRAL_CONTROL_SYSTEM_QUEUE_NAME)
                                                 q.put(
                                                 Event(source=self._event_source_name, 
-                                                      destination=ORBIT_CONTROL_QUEUE_NAME, 
+                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
                                                       operation=operation, 
                                                       parameters=parameters))
                                             else:
@@ -87,10 +87,10 @@ class CommandHandler(BaseCustomProcess):
                                                 parameters[0] = int(parameters[0])
                                                 for i in range(1, 5):
                                                     parameters[i] = float(parameters[i])
-                                                q: Queue = self._queues_dir.get_queue(CENTRAL_CONTROL_SYSTEM_QUEUE_NAME)
+                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                                                 q.put(
                                                 Event(source=self._event_source_name, 
-                                                      destination=DATA_STORAGE_QUEUE_NAME, 
+                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
                                                       operation=operation, 
                                                       parameters=parameters))
                                             else:
@@ -101,10 +101,10 @@ class CommandHandler(BaseCustomProcess):
                                                 operation = res_split[0] + ' ' + res_split[1]
                                                 parameters = res_split[2:]
                                                 parameters[0] = int(parameters[0])
-                                                q: Queue = self._queues_dir.get_queue(CENTRAL_CONTROL_SYSTEM_QUEUE_NAME)
+                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                                                 q.put(
                                                 Event(source=self._event_source_name, 
-                                                      destination=DATA_STORAGE_QUEUE_NAME, 
+                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
                                                       operation=operation, 
                                                       parameters=parameters))
                                             else:
@@ -113,10 +113,10 @@ class CommandHandler(BaseCustomProcess):
                                             if rights['right to create snapshots']:
                                                 operation = line
                                                 parameters = []
-                                                q: Queue = self._queues_dir.get_queue(CENTRAL_CONTROL_SYSTEM_QUEUE_NAME)
+                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                                                 q.put(
                                                 Event(source=self._event_source_name, 
-                                                      destination=CAMERA_QUEUE_NAME, 
+                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
                                                       operation=operation, 
                                                       parameters=parameters))
                                             else:

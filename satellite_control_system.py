@@ -12,12 +12,22 @@ from src.system.event_types import Event, ControlEvent
 from src.satellite_control_system.security_monitor import SecurityMonitor
 from src.system.security_policy_type import SecurityPolicy
 from src.satellite_control_system.optics_control import OpticsControl
-from src.satellite_control_system.interpreter import Interpreter
-from src.satellite_control_system.authorization_center import AuthorizationCenter
+from src.satellite_control_system.command_handler import CommandHandler
 
 from src.system.config import CRITICALITY_STR, LOG_DEBUG, \
-    LOG_ERROR, LOG_INFO, DEFAULT_LOG_LEVEL, OPTICS_CONTROL_QUEUE_NAME, ORBIT_DRAWER_QUEUE_NAME,\
-    INTERPRETER_QUEUE_NAME, AUTHORIZATION_CENTER_QUEUE_NAME
+    LOG_ERROR, LOG_INFO, DEFAULT_LOG_LEVEL, \
+    SATELITE_QUEUE_NAME, \
+    ORBIT_DRAWER_QUEUE_NAME, \
+    OPTICS_CONTROL_QUEUE_NAME, \
+    ZONE_CHECK_QUEUE_NAME, \
+    ORBIT_CONTROL_QUEUE_NAME, \
+    ORBIT_CHECK_QUEUE_NAME, \
+    CAMERA_QUEUE_NAME, \
+    SECURITY_MONITOR_QUEUE_NAME, \
+    CLIENT_QUEUE_NAME, \
+    CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, \
+    DATA_STORAGE_QUEUE_NAME, \
+    COMMAND_HANDLER_QUEUE_NAME
     
 def setup_system(queues_dir):
     # Симулятор спутника
@@ -48,14 +58,45 @@ def setup_system(queues_dir):
     
 def setup_policies():
     policies = [
+        # От клиентского кода к обработчику команд
         SecurityPolicy(
-                source=INTERPRETER_QUEUE_NAME,
-                destination=AUTHORIZATION_CENTER_QUEUE_NAME,
-                operation='execute commands'
-            )]
+                source=CLIENT_QUEUE_NAME,
+                destination=COMMAND_HANDLER_QUEUE_NAME,
+                operation='upload_file'
+            ),
+        
+        # От обработчика команд к ЦСУ
+
+        # От ЦСУ к хранилищу
+
+        # От ЦСУ к системе управления оптикой
+
+        # От ЦСУ к системе управления орбитой
+
+        # От ЦСУ к системе проверки зоны
+
+        # От хранилища к ЦСУ
+
+        # От системы проверки зоны к ЦСУ
+
+        # От системы управления оптикой к системе проверки зоны
+
+        # От системы проверки зоны к камере
+
+        # От системы проверки зоны к отрисовщику
+
+        # От системы управления орбиты к системе проверки орбиты
+
+        # От системы проверки орбиты к системе управления спутником
+        SecurityPolicy(
+                source=ORBIT_CHECK_QUEUE_NAME,
+                destination=SATELITE_QUEUE_NAME,
+                operation='change_orbit'
+            )
+        ]
             
     return policies
-    
+
 if __name__ == '__main__':
     queues_dir = QueuesDirectory()
 
