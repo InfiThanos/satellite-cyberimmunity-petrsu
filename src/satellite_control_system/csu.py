@@ -18,9 +18,9 @@ class CentralControlSystem(BaseCustomProcess):
 
     def __init__(self, queues_dir: QueuesDirectory, log_level: int = DEFAULT_LOG_LEVEL):
         # вызываем конструктор базового класса
-        super().__init__(log_prefix=MyInterpreter.log_prefix, queues_dir=queues_dir,
-                         events_q_name=MyInterpreter.event_source_name,
-                         event_source_name=MyInterpreter.event_source_name,
+        super().__init__(log_prefix=CentralControlSystem.log_prefix, queues_dir=queues_dir,
+                         events_q_name=CentralControlSystem.event_source_name,
+                         event_source_name=CentralControlSystem.event_source_name,
                          log_level=log_level)
         
         self._log_message(LOG_INFO, f"модуль ЦСУ создан")
@@ -45,29 +45,9 @@ class CentralControlSystem(BaseCustomProcess):
                             Event(
                                 source=self._event_source_name, 
                                 destination=ORBIT_CONTROL_QUEUE_NAME, 
-                                operation='update_photo_map', 
-                                parameters=event.parameters
-                        self._log_message(LOG_DEBUG, f"рисуем снимок ({lat}, {lon})")
-                        break
-                    case 'ADD ZONE':
-                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
-                        q.put(
-                            Event(
-                                source=self._event_source_name, 
-                                destination=DATA_STORAGE_QUEUE_NAME, 
-                                operation='add_zone', 
-                                parameters=event.parameters
-                        self._log_message(LOG_DEBUG, f"рисуем снимок ({lat}, {lon})")
-                        break
-                    case 'REMOVE ZONE':
-                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
-                        q.put(
-                            Event(
-                                source=self._event_source_name, 
-                                destination=DATA_STORAGE_QUEUE_NAME, 
-                                operation='remove', 
-                                parameters=event.parameters
-                        self._log_message(LOG_DEBUG, f"рисуем снимок ({lat}, {lon})")
+                                operation='change_orbite', 
+                                parameters=event.parameters))
+                        self._log_message(LOG_DEBUG, "Отправлен запрос на изменение орбиты")
                         break
                     case 'MAKE PHOTO':
                         q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
@@ -77,7 +57,27 @@ class CentralControlSystem(BaseCustomProcess):
                                 destination=OPTICS_CONTROL_QUEUE_NAME, 
                                 operation='request_photo', 
                                 parameters=event.parameters
-                        self._log_message(LOG_DEBUG, f"рисуем снимок ({lat}, {lon})")
+                        self._log_message(LOG_DEBUG, "Отправлен запрос на фотографию")
+                        break
+                    case 'ADD ZONE':
+                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+                        q.put(
+                            Event(
+                                source=self._event_source_name, 
+                                destination=DATA_STORAGE_QUEUE_NAME, 
+                                operation='add_zone', 
+                                parameters=event.parameters))
+                        self._log_message(LOG_DEBUG, "Отправлен запрос на добавление зоны")
+                        break
+                    case 'REMOVE ZONE':
+                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+                        q.put(
+                            Event(
+                                source=self._event_source_name, 
+                                destination=DATA_STORAGE_QUEUE_NAME, 
+                                operation='delete_zone', 
+                                parameters=event.parameters
+                        self._log_message(LOG_DEBUG, "Отправлен запрос на удаление зоны")
                         break
                     case 'request_zone':
                         q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
@@ -87,7 +87,17 @@ class CentralControlSystem(BaseCustomProcess):
                                 destination=DATA_STORAGE_QUEUE_NAME, 
                                 operation='request_zone', 
                                 parameters=event.parameters
-                        self._log_message(LOG_DEBUG, f"рисуем снимок ({lat}, {lon})")
+                        self._log_message(LOG_DEBUG, "Запрошены координаты зон")
+                        break
+                    case 'add_photo':
+                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+                        q.put(
+                            Event(
+                                source=self._event_source_name, 
+                                destination=DATA_STORAGE_QUEUE_NAME, 
+                                operation='add_photo', 
+                                parameters=event.parameters))
+                        self._log_message(LOG_DEBUG, "Отправлены координаты зон")
                         break
                     case 'update_photo':
                         q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
@@ -96,13 +106,12 @@ class CentralControlSystem(BaseCustomProcess):
                                 source=self._event_source_name, 
                                 destination=ZONE_CHECK_QUEUE_NAME, 
                                 operation='post_photo', 
-                                parameters=event.parameters
-                        self._log_message(LOG_DEBUG, f"рисуем снимок ({lat}, {lon})")
+                                parameters=event.parameters))
+                        self._log_message(LOG_DEBUG, "Отправлены координаты зон")
                         break
                                
             except Empty:
                 break
-
 
     def run(self):
         self._log_message(LOG_INFO, f"модуль ЦСУ активен")

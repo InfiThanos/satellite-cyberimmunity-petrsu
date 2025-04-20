@@ -5,8 +5,8 @@ from src.system.custom_process import BaseCustomProcess
 from src.system.queues_dir import QueuesDirectory
 from src.system.event_types import Event
 from src.system.config import COMMAND_HANDLER_QUEUE_NAME, CENTRAL_CONTROL_SYSTEM_QUEUE_NAME
-from src.system.config import DATA_STORAGE_QUEUE_NAME, CAMERA_QUEUE_NAME
-from src.system.config import ORBIT_CONTROL_QUEUE_NAME, DEFAULT_LOG_LEVEL, LOG_ERROR, LOG_INFO
+from src.system.config import SECURITY_MONITOR_QUEUE_NAME
+from src.system.config import DEFAULT_LOG_LEVEL, LOG_ERROR, LOG_INFO
 
 import re
 from hashlib import sha512
@@ -71,7 +71,7 @@ class CommandHandler(BaseCustomProcess):
                                                 parameters = res_split[1:]
                                                 for i in range(3):
                                                     parameters[i] = float(parameters[i])
-                                                q: Queue = self._queues_dir.get_queue(CENTRAL_CONTROL_SYSTEM_QUEUE_NAME)
+                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                                                 q.put(
                                                 Event(source=self._event_source_name, 
                                                       destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 

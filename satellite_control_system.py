@@ -66,32 +66,124 @@ def setup_policies():
             ),
         
         # От обработчика команд к ЦСУ
+        SecurityPolicy(
+                source=COMMAND_HANDLER_QUEUE_NAME,
+                destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                operation='ORBIT'
+            ),
+        SecurityPolicy(
+                source=COMMAND_HANDLER_QUEUE_NAME,
+                destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                operation='ADD ZONE'
+            ),
+        SecurityPolicy(
+                source=COMMAND_HANDLER_QUEUE_NAME,
+                destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                operation='REMOVE ZONE'
+            ),
+        SecurityPolicy(
+                source=COMMAND_HANDLER_QUEUE_NAME,
+                destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                operation='MAKE PHOTO'
+            ),
 
         # От ЦСУ к хранилищу
-
+        SecurityPolicy(
+                source=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                destination=DATA_STORAGE_QUEUE_NAME,
+                operation='add_zone'
+            ),
+        SecurityPolicy(
+                source=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                destination=DATA_STORAGE_QUEUE_NAME,
+                operation='delete_zone'
+            ),
+        SecurityPolicy(
+                source=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                destination=DATA_STORAGE_QUEUE_NAME,
+                operation='request_zone'
+            ),
+        SecurityPolicy(
+                source=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                destination=DATA_STORAGE_QUEUE_NAME,
+                operation='add_photo'
+            ),
+        
         # От ЦСУ к системе управления оптикой
-
+        SecurityPolicy(
+                source=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                destination=OPTICS_CONTROL_QUEUE_NAME,
+                operation='request_photo'
+            ),
+        
         # От ЦСУ к системе управления орбитой
+        SecurityPolicy(
+                source=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                destination=ORBIT_CONTROL_QUEUE_NAME,
+                operation='change_orbite'
+            ),
 
         # От ЦСУ к системе проверки зоны
+        SecurityPolicy(
+                source=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                destination=ZONE_CHECK_QUEUE_NAME,
+                operation='post_photo'
+            ),
 
         # От хранилища к ЦСУ
-
-        # От системы проверки зоны к ЦСУ
-
+        SecurityPolicy(
+                source=DATA_STORAGE_QUEUE_NAME,
+                destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                operation='update_photo'
+            ),
+        
         # От системы управления оптикой к системе проверки зоны
 
+        # От системы проверки зоны к ЦСУ
+        SecurityPolicy(
+                source=ZONE_CHECK_QUEUE_NAME,
+                destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                operation='request_zone'
+            ),
+        SecurityPolicy(
+                source=ZONE_CHECK_QUEUE_NAME,
+                destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                operation='add_photo'
+            ),
+
         # От системы проверки зоны к камере
-
+        SecurityPolicy(
+                source=ZONE_CHECK_QUEUE_NAME,
+                destination=CAMERA_QUEUE_NAME,
+                operation='request_photo'
+            ),
+        
         # От системы проверки зоны к отрисовщику
-
+        SecurityPolicy(
+                source=ZONE_CHECK_QUEUE_NAME,
+                destination=ORBIT_DRAWER_QUEUE_NAME,
+                operation='update_photo'
+            ),
+        
         # От системы управления орбиты к системе проверки орбиты
+        SecurityPolicy(
+                source=ORBIT_CONTROL_QUEUE_NAME,
+                destination=ORBIT_CHECK_QUEUE_NAME,
+                operation='check_orbit'
+            ),
 
         # От системы проверки орбиты к системе управления спутником
         SecurityPolicy(
                 source=ORBIT_CHECK_QUEUE_NAME,
                 destination=SATELITE_QUEUE_NAME,
                 operation='change_orbit'
+            ),
+
+        # От камеры к системе проверки зоны
+        SecurityPolicy(
+                source=ORBIT_CHECK_QUEUE_NAME,
+                destination=ZONE_CHECK_QUEUE_NAME,
+                operation='check_photo'
             )
         ]
             
