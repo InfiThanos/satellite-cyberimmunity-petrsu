@@ -414,8 +414,8 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="wIiNEmHUe771k3tbNyFQ" name="Политика безопасности">
-    <mxGraphModel dx="2789" dy="877" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="none">
+  <diagram id="wIiNEmHUe771k3tbNyFQ" name="Политика архитектуры">
+    <mxGraphModel dx="2307" dy="814" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="none">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -424,9 +424,6 @@
         </mxCell>
         <mxCell id="yFwd43z4EVqmmbxYUCsH-2" value="5.1 Система управления орбитой" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
           <mxGeometry x="231" y="570" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="yFwd43z4EVqmmbxYUCsH-4" value="2.1 Интерпретатор" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
-          <mxGeometry x="-80" y="319.5" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="yFwd43z4EVqmmbxYUCsH-7" value="1. Связь" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
           <mxGeometry x="120" y="319.5" width="120" height="60" as="geometry" />
@@ -437,13 +434,13 @@
         <mxCell id="yFwd43z4EVqmmbxYUCsH-37" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#d5e8d4;strokeColor=#82b366;startArrow=classicThin;startFill=1;" parent="1" source="yFwd43z4EVqmmbxYUCsH-12" target="yFwd43z4EVqmmbxYUCsH-15" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="yFwd43z4EVqmmbxYUCsH-12" value="4 Центральная система управления" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="yFwd43z4EVqmmbxYUCsH-12" value="4. Центральная система управления" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="321" y="430" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="yFwd43z4EVqmmbxYUCsH-13" value="6.1 Система управления оптикой" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
           <mxGeometry x="441" y="570" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="yFwd43z4EVqmmbxYUCsH-15" value="3 Хранилище данных" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="yFwd43z4EVqmmbxYUCsH-15" value="3. Хранилище данных" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="520" y="430" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="yFwd43z4EVqmmbxYUCsH-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="yFwd43z4EVqmmbxYUCsH-18" target="yFwd43z4EVqmmbxYUCsH-22" edge="1">
@@ -522,20 +519,11 @@
         <mxCell id="-8ZjoXFDE5wN5GpJZLjh-1" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Виды доменов и целостность данных&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Недоверенный домен (красный) -- домен, данные из которого по умолчанию считаются низкоцелостными.&lt;/font&gt;&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Доверенный домен (зеленый) -- защищенный домен, который всегда возвращает высокоцелостные данные, но при условии, что получает на вход высокоцелостные.&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Домен повышающий целостность (желтый) -- может принимать любые данные, но возвращает всегда высокоцелостные.&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Низкоцелостные данные могут содержать неверные команды, которые нарушат выполнение ЦБ, например попытаются вывести спутник на небезопасную орбиту.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Необходимо найти наименее затратное решение -- сделать систему с наибольшим числом недоверенных доменов, которая при этом соответствует целям безопасности.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Также стоит делать зелеными или желтыми те домены, которые наиболее просты в защите. Если домен, который хочется защитить, сложно устроен, стоит разбить его на несколько меньших блоков и защитить среди них только необходимые.&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;При внесении подобных изменений необходимо также сохранить функционал системы.&lt;/span&gt;&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="827" y="347" width="663" height="483" as="geometry" />
         </mxCell>
-        <mxCell id="rthY8V84dsFZl1yyuXCL-3" value="2.2 Авторизация и проверка прав" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+        <mxCell id="rthY8V84dsFZl1yyuXCL-3" value="2. Обработчик команд" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="120" y="430" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="rthY8V84dsFZl1yyuXCL-9" value="6.2 Проверка зоны съемки" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="441" y="700" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="rthY8V84dsFZl1yyuXCL-13" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="yFwd43z4EVqmmbxYUCsH-15" target="rthY8V84dsFZl1yyuXCL-9" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="480" y="630" as="sourcePoint" />
-            <mxPoint x="530" y="580" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="580" y="640" />
-            </Array>
-          </mxGeometry>
         </mxCell>
         <mxCell id="5OapiESRwEK6jOCzwmEE-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="5OapiESRwEK6jOCzwmEE-1" target="yFwd43z4EVqmmbxYUCsH-18" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -561,31 +549,10 @@
             <mxPoint x="540" y="590" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="O4whJo7cwGmGLiPVozBn-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=#d5e8d4;strokeColor=#82b366;" edge="1" parent="1" source="rthY8V84dsFZl1yyuXCL-9" target="yFwd43z4EVqmmbxYUCsH-12">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="490" y="640" as="sourcePoint" />
-            <mxPoint x="540" y="590" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="381" y="640" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
         <mxCell id="O4whJo7cwGmGLiPVozBn-4" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fillColor=#d5e8d4;strokeColor=#82b366;" edge="1" parent="1" source="yFwd43z4EVqmmbxYUCsH-22" target="rthY8V84dsFZl1yyuXCL-9">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="390" y="620" as="sourcePoint" />
             <mxPoint x="440" y="570" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="WTXGEtTFHiQbSvbcnXWM-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="yFwd43z4EVqmmbxYUCsH-4" target="rthY8V84dsFZl1yyuXCL-3">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="280" y="470" as="sourcePoint" />
-            <mxPoint x="330" y="420" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="WTXGEtTFHiQbSvbcnXWM-5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="yFwd43z4EVqmmbxYUCsH-7" target="yFwd43z4EVqmmbxYUCsH-4">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="370" y="450" as="sourcePoint" />
-            <mxPoint x="420" y="400" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="WTXGEtTFHiQbSvbcnXWM-6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="yFwd43z4EVqmmbxYUCsH-7" target="rthY8V84dsFZl1yyuXCL-3">
@@ -600,10 +567,13 @@
             <mxPoint x="470" y="500" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="WTXGEtTFHiQbSvbcnXWM-8" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fillColor=#d5e8d4;strokeColor=#82b366;" edge="1" parent="1" source="yFwd43z4EVqmmbxYUCsH-12" target="yFwd43z4EVqmmbxYUCsH-7">
+        <mxCell id="-z_8zNJdTT1B2R610Yd--1" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=#d5e8d4;strokeColor=#82b366;startArrow=classicThin;startFill=1;" edge="1" parent="1" source="rthY8V84dsFZl1yyuXCL-9" target="yFwd43z4EVqmmbxYUCsH-12">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="420" y="550" as="sourcePoint" />
-            <mxPoint x="470" y="500" as="targetPoint" />
+            <mxPoint x="310" y="660" as="sourcePoint" />
+            <mxPoint x="360" y="610" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="381" y="640" />
+            </Array>
           </mxGeometry>
         </mxCell>
       </root>

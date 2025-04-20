@@ -6,7 +6,7 @@ from src.system.queues_dir import QueuesDirectory
 from src.system.event_types import Event, ControlEvent
 from src.system.config import CRITICALITY_STR, LOG_DEBUG, \
     LOG_ERROR, LOG_INFO, DEFAULT_LOG_LEVEL, \
-    ORBIT_CONTROL_QUEUE_NAME
+    ORBIT_CONTROL_QUEUE_NAME, ORBIT_CHECK_QUEUE_NAME, SECURITY_MONITOR_QUEUE_NAME
 
 
 class OrbitControl(BaseCustomProcess):
@@ -14,6 +14,7 @@ class OrbitControl(BaseCustomProcess):
     log_prefix = "[ORBIT]"
     event_source_name = ORBIT_CONTROL_QUEUE_NAME
     events_q_name = event_source_name
+
 
     def __init__(
         self,
@@ -60,7 +61,7 @@ class OrbitControl(BaseCustomProcess):
                     case 'change_orbit':
                         # Извлекаем параметры новой орбиты
                         altitude, raan, inclination = event.parameters
-                        self._log_message("Система контроля орбиты получила новые параметры")
+                        self._log_message(LOG_INFO,"Система контроля орбиты получила новые параметры")
                         self._change_orbit(altitude, raan, inclination)
             except Empty:
                 break
@@ -76,9 +77,14 @@ class OrbitControl(BaseCustomProcess):
             except Exception as e:
                 self._log_message(LOG_ERROR, f"ошибка модуля контроля орбиты: {e}")
 
-
-
     
     def _change_orbit(self, altitude, raan, inclination):
-        pass
-        # Реализуйте функционал смены орбиты в этом методе
+        # Запрос на смену орбиты
+        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+        q.put(
+            Event(
+                source=self._event_source_name,
+                destination=ORBIT_CHECK_QUEUE_NAME,
+                operation='check_orbit',
+                parameters=(altitude, raan, inclination)))
+        self._log_message(LOG_DEBUG, f"проверяем значения новой орбиты ({altitude}, {raan}, {inclination})")

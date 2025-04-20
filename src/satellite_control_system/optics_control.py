@@ -6,13 +6,14 @@ from src.system.queues_dir import QueuesDirectory
 from src.system.event_types import Event
 from src.system.config import CRITICALITY_STR, LOG_DEBUG, \
     LOG_ERROR, LOG_INFO, DEFAULT_LOG_LEVEL, \
-    OPTICS_CONTROL_QUEUE_NAME, ORBIT_DRAWER_QUEUE_NAME
+    OPTICS_CONTROL_QUEUE_NAME, ZONE_CHECK_QUEUE_NAME, SECURITY_MONITOR_QUEUE_NAME
 
 class OpticsControl(BaseCustomProcess):
     """ Модуль управления потической аппаратурой """
     log_prefix = "[OPTIC]"
     event_source_name = OPTICS_CONTROL_QUEUE_NAME
     events_q_name = event_source_name
+
 
     def __init__(
         self,
@@ -36,7 +37,7 @@ class OpticsControl(BaseCustomProcess):
                 # Получаем сообщение из очереди
                 event: Event = self._events_q.get_nowait()
 
-                # Проверяем, что сообщение принадлежит типу Event (см. файл event_types.py)
+                # Проверяем, что сообщение принадлежит типу Event (см. Файл event_types.py)
                 if not isinstance(event, Event):
                     return
                 
@@ -44,17 +45,6 @@ class OpticsControl(BaseCustomProcess):
                 match event.operation:
                     case 'request_photo':
                         self._send_photo_request()
-                    case 'post_photo':
-                        # Запрос на отрисовку снимка на карте
-                        q: Queue = self._queues_dir.get_queue(ORBIT_DRAWER_QUEUE_NAME)
-                        lat, lon = event.parameters
-                        q.put(
-                            Event(
-                                source=self._event_source_name, 
-                                destination=ORBIT_DRAWER_QUEUE_NAME, 
-                                operation='update_photo_map', 
-                                parameters=(lat, lon)))
-                        self._log_message(LOG_DEBUG, f"рисуем снимок ({lat}, {lon})")
 
             except Empty:
                 break
@@ -72,5 +62,11 @@ class OpticsControl(BaseCustomProcess):
 
     
     def _send_photo_request(self):
-        pass
-        # Реализуйте функционал контроля оптики
+        # Запрос на снимок
+        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+        q.put(
+            Event(
+                source=self._event_source_name,
+                destination=ZONE_CHECK_QUEUE_NAME,
+                operation='request_photo',
+                parameters=None))
