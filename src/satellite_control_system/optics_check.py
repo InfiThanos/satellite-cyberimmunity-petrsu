@@ -64,7 +64,7 @@ class OpticsCheck(BaseCustomProcess):
                         for rect in rectangles:
                             lon1, lat1, lon2, lat2 = rect
                             # Проверяем, что координаты полностью внутри текущего прямоугольника
-                            if ((lat1 <= self.m_lat <= lat2) and (lon1 <= self.m_lon <= lon2)):
+                            if lat1 <= self.m_lat and self.m_lat <= lat2 and lon1 <= self.m_lon and self.m_lon <= lon2:
                                 return
                         q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                         q.put(
@@ -73,12 +73,15 @@ class OpticsCheck(BaseCustomProcess):
                                 destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
                                 operation='add_photo',
                                 parameters=(self.m_lat, self.m_lon)))
+
+                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                         q.put(
                             Event(
                                 source=self._event_source_name,
                                 destination=ORBIT_DRAWER_QUEUE_NAME,
-                                operation='update_photo',
+                                operation='update_photo_map',
                                 parameters=(self.m_lat, self.m_lon)))
+
                         self._log_message(LOG_DEBUG, f"сохраняем снимок ({self.m_lat}, {self.m_lon})")
 
             except Empty:

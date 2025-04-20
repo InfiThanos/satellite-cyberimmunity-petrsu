@@ -1,6 +1,8 @@
 from multiprocessing import Queue
 from queue import Empty
 
+from pyexpat.errors import messages
+
 from src.system.custom_process import BaseCustomProcess
 from src.system.queues_dir import QueuesDirectory
 from src.system.event_types import Event
@@ -27,14 +29,11 @@ class CommandHandler(BaseCustomProcess):
         self._log_message(LOG_INFO, f"модуль обработчика команд создан")
         self.users = []
         rights = {'right to create snapshots': True, 'right to correct orbits': True, 'right to edit restrictions on images': True}
-        self.users.append(('Admin', 'a3ba8f0f793c59723da40d0a86994e8185579895de1431f6781de7a2da2f77ecf3c17bcc3cf5dc22e9095a45567650'
-                                    '662f7c6bb2dce83e9fa9025614217e752e', rights.copy()))
-        rights = {'right to create snapshots': False, 'right to correct orbits': False, 'right to edit restrictions on images': False}
-        self.users.append(('JustUser', 'feafde638ab9bb435c65b577cf2955875d3892dbb7a4f0e88589a6b20c66334936739de008547961637eefc4c2bb1f'
-                           '677804e93da9bf9fcb70465c64a81c3900', rights.copy()))
+        self.users.append(('Admin', 'Admin', rights.copy()))
         rights = {'right to create snapshots': True, 'right to correct orbits': False, 'right to edit restrictions on images': False}
-        self.users.append(('Photographer', '8046069928ebca01757e7ed38698beb726fe59d9727c3c9c038f29d349cb3c0aeca3d2d88d67aa55414a57ede'
-                           '99e285e71f4003079bbb89c68b057d3058f0aed', rights.copy()))
+        self.users.append(('Photo', 'Photo', rights.copy()))
+        rights = {'right to create snapshots': True, 'right to correct orbits': True, 'right to edit restrictions on images': False}
+        self.users.append(('User', 'User', rights.copy()))
 
 
     def _check_events_q(self):
@@ -51,81 +50,85 @@ class CommandHandler(BaseCustomProcess):
                 # Проверяем вид операции и обрабатываем, event.parameters = (имя файла, логин, пароль)
                 match event.operation:
                     case 'upload_file':
+                        message = event.parameters
+
+                        # if str(sha512((message[0]+message[1]+message[2]).encode('utf-8'))) != message[3]:
+                        #     self._log_message(LOG_ERROR, f"Нарушение целостности файла")
+                        #     return
+
                         rights = None
                         for i in range(len(self.users)):
-                            if self.users[i][0] == event.parameters[1] and self.users[i][1] == sha512(event.parameters[2]):
+                            if self.users[i][0] == message[1] and self.users[i][1] == message[2]:
                                 rights = self.users[i][2]
                                 break
+
                         if rights is not None:
-                            name_file = event.parameters[0]
-                            try:
-                                with open(name_file, 'r') as f:
-                                    list_comands = []
-                                    for line in f:
-                                        if line[-1] == '\n':
-                                            line = line[:-1]    #отсекаю символ перевода строки
-                                        if re.match(r'ORBIT \d+\.\d+ \d+\.\d+ \d+\.\d+$', line):
-                                            if rights['right to correct orbits']:
-                                                res_split = line.split()
-                                                operation = res_split[0]
-                                                parameters = res_split[1:]
-                                                for i in range(3):
-                                                    parameters[i] = float(parameters[i])
-                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
-                                                q.put(
-                                                Event(source=self._event_source_name, 
-                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
-                                                      operation=operation, 
-                                                      parameters=parameters))
-                                            else:
-                                                self._log_message(LOG_ERROR, 'Ошибка, нет права управления орбитой')
-                                        elif re.match(r'ADD ZONE d+ \d+\.\d+ \d+\.\d+ \d+\.\d \d+\.\d+$', line):
-                                            if rights['right to edit restrictions on images']:
-                                                res_split = line.split()
-                                                operation = res_split[0] + ' ' + res_split[1]
-                                                parameters = res_split[2:]
-                                                parameters[0] = int(parameters[0])
-                                                for i in range(1, 5):
-                                                    parameters[i] = float(parameters[i])
-                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
-                                                q.put(
-                                                Event(source=self._event_source_name, 
-                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
-                                                      operation=operation, 
-                                                      parameters=parameters))
-                                            else:
-                                                self._log_message(LOG_ERROR, 'Ошибка, нет права изменения хранилища данных')
-                                        elif re.match(r'REMOVE ZONE d+$', line):
-                                            if rights['right to edit restrictions on images']:
-                                                res_split = line.split()
-                                                operation = res_split[0] + ' ' + res_split[1]
-                                                parameters = res_split[2:]
-                                                parameters[0] = int(parameters[0])
-                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
-                                                q.put(
-                                                Event(source=self._event_source_name, 
-                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
-                                                      operation=operation, 
-                                                      parameters=parameters))
-                                            else:
-                                                self._log_message(LOG_ERROR, 'Ошибка, нет права изменения хранилища данных')
-                                        elif line == 'MAKE PHOTO':
-                                            if rights['right to create snapshots']:
-                                                operation = line
-                                                parameters = []
-                                                q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
-                                                q.put(
-                                                Event(source=self._event_source_name, 
-                                                      destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, 
-                                                      operation=operation, 
-                                                      parameters=parameters))
-                                            else:
-                                                self._log_message(LOG_ERROR, 'Ошибка, нет права на создание снимков')
-                                        else:
-                                            self._log_message(LOG_ERROR, f"Обработчик команд встретил неизвестную команду")
-                                            break
-                            except IOError:
-                                self._log_message(LOG_ERROR, f"Указанный файл команд не найден")
+                            file = message[0]
+                            list_comands = []
+                            for line in file:
+                                if line[-1] == '\n':
+                                    line = line[:-1]    #отсекаю символ перевода строки
+                                if re.match(r'ORBIT -?\d+(?:\.\d*)? -?\d+(?:\.\d*)? -?\d+(?:\.\d*)?$', line):
+                                    if rights['right to correct orbits']:
+                                        res_split = line.split()
+                                        operation = res_split[0]
+                                        parameters = res_split[1:]
+                                        for i in range(3):
+                                            parameters[i] = float(parameters[i])
+                                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+                                        q.put(
+                                        Event(source=self._event_source_name,
+                                              destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                                              operation=operation,
+                                              parameters=parameters))
+                                    else:
+                                        self._log_message(LOG_ERROR, 'Ошибка, нет права управления орбитой')
+                                elif re.match(r'ADD ZONE -?\d+(?:\.\d*)? -?\d+(?:\.\d*)? -?\d+(?:\.\d*)? -?\d+(?:\.\d*)? -?\d+(?:\.\d*)?$', line):
+                                    if rights['right to edit restrictions on images']:
+                                        res_split = line.split()
+                                        operation = res_split[0] + ' ' + res_split[1]
+                                        parameters = res_split[2:]
+                                        parameters[0] = int(parameters[0])
+                                        for i in range(1, 5):
+                                            parameters[i] = float(parameters[i])
+                                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+                                        q.put(
+                                        Event(source=self._event_source_name,
+                                              destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                                              operation=operation,
+                                              parameters=parameters))
+                                    else:
+                                        self._log_message(LOG_ERROR, 'Ошибка, нет права изменения хранилища данных')
+                                elif re.match(r'REMOVE ZONE d+$', line):
+                                    if rights['right to edit restrictions on images']:
+                                        res_split = line.split()
+                                        operation = res_split[0] + ' ' + res_split[1]
+                                        parameters = res_split[2:]
+                                        parameters[0] = int(parameters[0])
+                                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+                                        q.put(
+                                        Event(source=self._event_source_name,
+                                              destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                                              operation=operation,
+                                              parameters=parameters))
+                                    else:
+                                        self._log_message(LOG_ERROR, 'Ошибка, нет права изменения хранилища данных')
+                                elif line == 'MAKE PHOTO':
+                                    if rights['right to create snapshots']:
+                                        operation = line
+                                        parameters = []
+                                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
+                                        q.put(
+                                        Event(source=self._event_source_name,
+                                              destination=CENTRAL_CONTROL_SYSTEM_QUEUE_NAME,
+                                              operation=operation,
+                                              parameters=parameters))
+                                    else:
+                                        self._log_message(LOG_ERROR, 'Ошибка, нет права на создание снимков')
+                                else:
+                                    self._log_message(LOG_ERROR, f"Обработчик команд встретил неизвестную команду")
+                                    break
+
                         else:
                             self._log_message(LOG_ERROR, 'Ошибка авторизации, не правильный логин/пароль')
             except Empty:

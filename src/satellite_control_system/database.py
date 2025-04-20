@@ -16,6 +16,8 @@ class DataBase(BaseCustomProcess):
     events_q_name = event_source_name
     photo_file = 'photo.txt'
     zone_file = 'zone.txt'
+    photo = []
+    zone = []
 
 
     def __init__(
@@ -54,52 +56,69 @@ class DataBase(BaseCustomProcess):
                             return
 
                         id_exists = False
-                        try:
-                            with open(self.zone_file, 'r') as f:
-                                for line in f:
-                                    existing_id = line.split()[0]
-                                    if existing_id == str(id):
-                                        id_exists = True
-                                        break
-                        except FileNotFoundError:
-                            pass
+                        # try:
+                        #     with open(self.zone_file, 'r') as f:
+                        #         for line in f:
+                        #             existing_id = line.split()[0]
+                        #             if existing_id == str(id):
+                        #                 id_exists = True
+                        #                 break
+                        # except FileNotFoundError:
+                        #     pass
+                        for line in self.zone:
+                            existing_id = line.split()[0]
+                            if existing_id == str(id):
+                                id_exists = True
+                                break
 
                         if not id_exists:
-                            with open(self.zone_file, 'a') as f:
-                                f.write(f"{id} {lon1} {lat1} {lon2} {lat2}\n")
+                            # with open(self.zone_file, 'a') as f:
+                            #     f.write(f"{id} {lon1} {lat1} {lon2} {lat2}\n")
+                            self.zone.append(f"{id} {lon1} {lat1} {lon2} {lat2}\n")
                             self._log_message(LOG_DEBUG, f"добавляем новую зону ({id}, {lon1}, {lat1}, {lon2}, {lat2})")
                         else:
                             self._log_message(LOG_ERROR, f"зона с ID {id} уже существует! Запись не добавлена")
 
                     case 'delete_zone':
                         id = event.parameters
-                        try:
-                            with open(self.zone_file, 'r') as f:
-                                lines = f.readlines()
-
-                            new_lines = [line for line in lines if line.split()[0] != str(id)]
-
-                            if len(new_lines) != len(lines):
-                                with open(self.zone_file, 'w') as f:
-                                    f.writelines(new_lines)
-                                self._log_message(LOG_DEBUG, f"зона успешно удалена")
-                            else:
-                                self._log_message(LOG_ERROR, f"зона с ID {id} не найден! Запись не удалена")
-
-                        except FileNotFoundError:
-                            self._log_message(LOG_DEBUG, f"файл не найден")
+                        new_lines = [line for line in self.zone if line.split()[0] != str(id)]
+                        if len(new_lines) != len(self.zone):
+                            self.zone = new_lines.copy()
+                            self._log_message(LOG_DEBUG, f"зона успешно удалена")
+                        else:
+                            self._log_message(LOG_ERROR, f"зона с ID {id} не найден! Запись не удалена")
+                        # try:
+                        #     with open(self.zone_file, 'r') as f:
+                        #         lines = f.readlines()
+                        #
+                        #     new_lines = [line for line in lines if line.split()[0] != str(id)]
+                        #
+                        #     if len(new_lines) != len(lines):
+                        #         with open(self.zone_file, 'w') as f:
+                        #             f.writelines(new_lines)
+                        #         self._log_message(LOG_DEBUG, f"зона успешно удалена")
+                        #     else:
+                        #         self._log_message(LOG_ERROR, f"зона с ID {id} не найден! Запись не удалена")
+                        #
+                        # except FileNotFoundError:
+                        #     self._log_message(LOG_DEBUG, f"файл не найден")
 
                     case 'request_zone':
                         rectangles = []
-                        try:
-                            with open(self.zone_file, 'r') as file:
-                                for line in file:
-                                    parts = line.strip().split()
-                                    if len(parts) == 5:  # Проверяем, что строка содержит 5 значений
-                                        _, x1, y1, x2, y2 = parts  # Игнорируем первый элемент (ID)
-                                        rectangles.append((float(x1), float(y1), float(x2), float(y2)))
-                        except FileNotFoundError:
-                            self._log_message(LOG_DEBUG, f"файл не найден")
+                        for line in self.zone:
+                            parts = line.strip().split()
+                            if len(parts) == 5:  # Проверяем, что строка содержит 5 значений
+                                _, x1, y1, x2, y2 = parts  # Игнорируем первый элемент (ID)
+                                rectangles.append((float(x1), float(y1), float(x2), float(y2)))
+                        # try:
+                        #     with open(self.zone_file, 'r') as file:
+                        #         for line in file:
+                        #             parts = line.strip().split()
+                        #             if len(parts) == 5:  # Проверяем, что строка содержит 5 значений
+                        #                 _, x1, y1, x2, y2 = parts  # Игнорируем первый элемент (ID)
+                        #                 rectangles.append((float(x1), float(y1), float(x2), float(y2)))
+                        # except FileNotFoundError:
+                        #     self._log_message(LOG_DEBUG, f"файл не найден")
 
                         q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                         q.put(
@@ -111,8 +130,9 @@ class DataBase(BaseCustomProcess):
 
                     case 'add_photo':
                         lat, lon = event.parameters
-                        with open(self.photo_file, 'a') as f:
-                            f.write(f"{lat} {lon}\n")
+                        self.photo.append(f"{lat} {lon}\n")
+                        # with open(self.photo_file, 'a') as f:
+                        #     f.write(f"{lat} {lon}\n")
                         self._log_message(LOG_DEBUG, f"снимок сохранен в хранилище")
 
             except Empty:

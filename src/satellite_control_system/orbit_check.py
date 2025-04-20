@@ -63,7 +63,7 @@ class OrbitCheck(BaseCustomProcess):
                     case 'check_orbit':
                         # Извлекаем параметры новой орбиты
                         altitude, raan, inclination = event.parameters
-                        self._log_message("Система проверки корректности орбиты получила новые параметры")
+                        self._log_message(LOG_INFO,"Система проверки корректности орбиты получила новые параметры")
                         self._check_orbit(altitude, raan, inclination)
             except Empty:
                 break

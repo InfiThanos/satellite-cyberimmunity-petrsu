@@ -45,7 +45,7 @@ class CentralControlSystem(BaseCustomProcess):
                             Event(
                                 source=self._event_source_name, 
                                 destination=ORBIT_CONTROL_QUEUE_NAME, 
-                                operation='change_orbite', 
+                                operation='change_orbit',
                                 parameters=event.parameters))
                         self._log_message(LOG_DEBUG, "Отправлен запрос на изменение орбиты")
                         break

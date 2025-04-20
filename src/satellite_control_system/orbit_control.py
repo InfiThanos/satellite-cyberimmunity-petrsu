@@ -61,7 +61,7 @@ class OrbitControl(BaseCustomProcess):
                     case 'change_orbit':
                         # Извлекаем параметры новой орбиты
                         altitude, raan, inclination = event.parameters
-                        self._log_message("Система контроля орбиты получила новые параметры")
+                        self._log_message(LOG_INFO,"Система контроля орбиты получила новые параметры")
                         self._change_orbit(altitude, raan, inclination)
             except Empty:
                 break
