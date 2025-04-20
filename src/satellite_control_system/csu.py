@@ -5,8 +5,8 @@ from src.system.custom_process import BaseCustomProcess
 from src.system.queues_dir import QueuesDirectory
 from src.system.event_types import Event
 from src.system.config import DATA_STORAGE_QUEUE_NAME, OPTICS_CONTROL_QUEUE_NAME, \
-     ORBIT_CONTROL_QUEUE_NAME, ZONE_CHECK_QUEUE_NAME
-from src.system.config import ORBIT_CONTROL_QUEUE_NAME, DEFAULT_LOG_LEVEL, LOG_ERROR, LOG_INFO
+     ORBIT_CONTROL_QUEUE_NAME, ZONE_CHECK_QUEUE_NAME, CENTRAL_CONTROL_SYSTEM_QUEUE_NAME, SECURITY_MONITOR_QUEUE_NAME
+from src.system.config import ORBIT_CONTROL_QUEUE_NAME, DEFAULT_LOG_LEVEL, LOG_ERROR, LOG_INFO, LOG_DEBUG
 
 import re
 
@@ -56,7 +56,7 @@ class CentralControlSystem(BaseCustomProcess):
                                 source=self._event_source_name, 
                                 destination=OPTICS_CONTROL_QUEUE_NAME, 
                                 operation='request_photo', 
-                                parameters=event.parameters
+                                parameters=event.parameters))
                         self._log_message(LOG_DEBUG, "Отправлен запрос на фотографию")
                         break
                     case 'ADD ZONE':
@@ -76,7 +76,7 @@ class CentralControlSystem(BaseCustomProcess):
                                 source=self._event_source_name, 
                                 destination=DATA_STORAGE_QUEUE_NAME, 
                                 operation='delete_zone', 
-                                parameters=event.parameters
+                                parameters=event.parameters))
                         self._log_message(LOG_DEBUG, "Отправлен запрос на удаление зоны")
                         break
                     case 'request_zone':
@@ -86,7 +86,7 @@ class CentralControlSystem(BaseCustomProcess):
                                 source=self._event_source_name, 
                                 destination=DATA_STORAGE_QUEUE_NAME, 
                                 operation='request_zone', 
-                                parameters=event.parameters
+                                parameters=event.parameters))
                         self._log_message(LOG_DEBUG, "Запрошены координаты зон")
                         break
                     case 'add_photo':

@@ -35,45 +35,45 @@ class Client(BaseCustomProcess):
                 if self.current_task == 'password is set':
                     q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                     q.put(
-                    Event(source=self._event_source_name, 
-                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                          operation='print', 
+                    Event(source=self._event_source_name,
+                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                          operation='print',
                           parameters='Введите 1, чтобы загрузить файл, введите 2, чтобы завершить систему'))
                     q.put(
-                    Event(source=self._event_source_name, 
-                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                          operation='input', 
+                    Event(source=self._event_source_name,
+                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                          operation='input',
                           parameters=None))
                     self.current_task = 'get an action'
                     break
                 elif self.current_task == 'get an action':
                     # Получаем сообщение из очереди
                     event: Event = self._events_q.get_nowait()
-                    
-                    # Проверяем, что сообщение принадлежит типу Event (см. файл event_types.py)
+
+                    # Проверяем, что сообщение принадлежит типу Event (см. Файл event_types.py)
                     if not isinstance(event, Event):
                         return
 
                     if event.operation == 'get input':
+                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                         if event.parameters == '1':
-                            q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                             q.put(
-                            Event(source=self._event_source_name, 
-                                  destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                                  operation='print', 
+                            Event(source=self._event_source_name,
+                                  destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                                  operation='print',
                                   parameters='Введите имя файла'))
                             q.put(
-                            Event(source=self._event_source_name, 
-                                  destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                                  operation='input', 
+                            Event(source=self._event_source_name,
+                                  destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                                  operation='input',
                                   parameters=None))
                             self.current_task = 'get name file'
                             break
                         elif event.parameters == '2':
                             q.put(
-                            Event(source=self._event_source_name, 
-                                  destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                                  operation='end', 
+                            Event(source=self._event_source_name,
+                                  destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                                  operation='end',
                                   parameters=None))
                             break
                         else:
@@ -82,7 +82,7 @@ class Client(BaseCustomProcess):
                 elif self.current_task == 'get name file':
                     # Получаем сообщение из очереди
                     event: Event = self._events_q.get_nowait()
-                    
+
                     # Проверяем, что сообщение принадлежит типу Event (см. файл event_types.py)
                     if not isinstance(event, Event):
                         return
@@ -94,21 +94,21 @@ class Client(BaseCustomProcess):
                 elif self.current_task == 'name file is set':
                     q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                     q.put(
-                    Event(source=self._event_source_name, 
-                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                          operation='print', 
+                    Event(source=self._event_source_name,
+                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                          operation='print',
                           parameters='Введите логин'))
                     q.put(
-                    Event(source=self._event_source_name, 
-                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                          operation='input', 
+                    Event(source=self._event_source_name,
+                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                          operation='input',
                           parameters=None))
                     self.current_task = 'get login'
                     break
                 elif self.current_task == 'get login':
                     # Получаем сообщение из очереди
                     event: Event = self._events_q.get_nowait()
-                    
+
                     # Проверяем, что сообщение принадлежит типу Event (см. файл event_types.py)
                     if not isinstance(event, Event):
                         return
@@ -120,21 +120,21 @@ class Client(BaseCustomProcess):
                 elif self.current_task == 'login is set':
                     q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                     q.put(
-                    Event(source=self._event_source_name, 
-                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                          operation='print', 
+                    Event(source=self._event_source_name,
+                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                          operation='print',
                           parameters='Введите пароль'))
                     q.put(
-                    Event(source=self._event_source_name, 
-                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME, 
-                          operation='input', 
+                    Event(source=self._event_source_name,
+                          destination=SATELLITE_CONTROL_SYSTEM_QUEUE_NAME,
+                          operation='input',
                           parameters=None))
                     self.current_task = 'get password'
                     break
                 elif self.current_task == 'get password':
                     # Получаем сообщение из очереди
                     event: Event = self._events_q.get_nowait()
-                    
+
                     # Проверяем, что сообщение принадлежит типу Event (см. файл event_types.py)
                     if not isinstance(event, Event):
                         return
@@ -143,14 +143,14 @@ class Client(BaseCustomProcess):
                         self.password = event.parameters
                         q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                         q.put(
-                        Event(source=self._event_source_name, 
-                              destination=COMMAND_HANDLER_QUEUE_NAME, 
-                              operation='upload_file', 
+                        Event(source=self._event_source_name,
+                              destination=COMMAND_HANDLER_QUEUE_NAME,
+                              operation='upload_file',
                               parameters=(self.name_file, self.login, self.password)))
                         self.current_task = 'password is set'
                         break
             except Empty:
-                break
+               break
 
 
     def run(self):

@@ -64,9 +64,9 @@ class OpticsControl(BaseCustomProcess):
     def _send_photo_request(self):
         # Запрос на снимок
         q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
-            q.put(
-                Event(
-                    source=self._event_source_name,
-                    destination=ZONE_CHECK_QUEUE_NAME,
-                    operation='request_photo',
-                    parameters=None))
+        q.put(
+            Event(
+                source=self._event_source_name,
+                destination=ZONE_CHECK_QUEUE_NAME,
+                operation='request_photo',
+                parameters=None))

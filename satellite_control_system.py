@@ -11,8 +11,16 @@ from src.system.system_wrapper import SystemComponentsContainer
 from src.system.event_types import Event, ControlEvent
 from src.satellite_control_system.security_monitor import SecurityMonitor
 from src.system.security_policy_type import SecurityPolicy
-from src.satellite_control_system.optics_control import OpticsControl
+
+from src.satellite_control_system.client import Client
 from src.satellite_control_system.command_handler import CommandHandler
+from src.satellite_control_system.csu import CentralControlSystem
+from src.satellite_control_system.database import DataBase
+from src.satellite_control_system.optics_check import OpticsCheck
+from src.satellite_control_system.optics_control import OpticsControl
+from src.satellite_control_system.orbit_check import OrbitCheck
+from src.satellite_control_system.orbit_control import OrbitControl
+
 
 from src.system.config import CRITICALITY_STR, LOG_DEBUG, \
     LOG_ERROR, LOG_INFO, DEFAULT_LOG_LEVEL, \
@@ -48,13 +56,49 @@ def setup_system(queues_dir):
     drawer = OrbitDrawer(
         queues_dir=queues_dir,
         log_level=LOG_DEBUG)
-    
-    # Модуль контроля оптики (использующий монитор безопасности вместо прямых сообщений)
+
+    # Клиент
+    client = Client(
+        queues_dir=queues_dir,
+        log_level=LOG_DEBUG)
+
+    # Обработчик команд
+    command_handler = CommandHandler(
+        queues_dir=queues_dir,
+        log_level=LOG_DEBUG)
+
+    # ЦСУ
+    csu = CentralControlSystem(
+        queues_dir=queues_dir,
+        log_level=LOG_DEBUG)
+
+    # Хранилище
+    db = DataBase(
+        queues_dir=queues_dir,
+        log_level=LOG_DEBUG)
+
+    # Проверка запретных зон
+    optic_checker = OpticsCheck(
+        queues_dir=queues_dir,
+        log_level=LOG_DEBUG)
+
+    # Модуль контроля оптики
     optics_control = OpticsControl(
         queues_dir=queues_dir,
         log_level=LOG_DEBUG)
+
+    # Проверка значений орбиты
+    orbit_checker = OrbitCheck(
+        queues_dir=queues_dir,
+        log_level=LOG_DEBUG)
+
+    # Модуль контроля орбиты
+    orbit_control = OrbitControl(
+        queues_dir=queues_dir,
+        log_level=LOG_DEBUG)
     
-    return [sat, camera, drawer, optics_control]
+    return [sat, camera, drawer, client, command_handler, csu, db,
+            optic_checker, optics_control, orbit_checker, orbit_control]
     
 def setup_policies():
     policies = [
@@ -138,6 +182,11 @@ def setup_policies():
             ),
         
         # От системы управления оптикой к системе проверки зоны
+        SecurityPolicy(
+            source=OPTICS_CONTROL_QUEUE_NAME,
+            destination=ZONE_CHECK_QUEUE_NAME,
+            operation='request_зрщещ'
+        ),
 
         # От системы проверки зоны к ЦСУ
         SecurityPolicy(
@@ -205,7 +254,7 @@ if __name__ == '__main__':
     # Запустим систему 
     system_components.start()
     
-    sleep(5);
+    sleep(20)
     
     system_components.stop() # Остановим системы
-    system_components.clean() # Очистик систему
+    system_components.clean() # Очистим систему

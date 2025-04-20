@@ -15,7 +15,8 @@ class OpticsCheck(BaseCustomProcess):
     log_prefix = "[OPTIC_CHECK]"
     event_source_name = ZONE_CHECK_QUEUE_NAME
     events_q_name = event_source_name
-    m_lat, m_lon = 0.0
+    m_lat = 0.0
+    m_lon = 0.0
 
 
     def __init__(
