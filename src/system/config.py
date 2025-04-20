@@ -4,6 +4,11 @@ OPTICS_CONTROL_QUEUE_NAME = "optics_control"
 ORBIT_CONTROL_QUEUE_NAME = "orbit_control"
 CAMERA_QUEUE_NAME = "camera"
 SECURITY_MONITOR_QUEUE_NAME = "security"
+INTERPRETER_QUEUE_NAME = "interpreter"
+AUTHORIZATION_CENTER_QUEUE_NAME = "authorization"
+CLIENT_QUEUE_NAME = "client"
+CENTRAL_CONTROL_SYSTEM_QUEUE_NAME = "central_control"
+DATA_STORAGE_QUEUE_NAME = "data_storage"
 
 DEFAULT_LOG_LEVEL = 2  # 1 - errors, 2 - verbose, 3 - debug
 LOG_FAILURE = 0
