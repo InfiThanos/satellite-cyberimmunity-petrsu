@@ -6,7 +6,7 @@ from src.system.queues_dir import QueuesDirectory
 from src.system.event_types import Event, ControlEvent
 from src.system.config import CRITICALITY_STR, LOG_DEBUG, \
     LOG_ERROR, LOG_INFO, DEFAULT_LOG_LEVEL, \
-    CAMERA_QUEUE_NAME, SATELITE_QUEUE_NAME, ORBIT_DRAWER_QUEUE_NAME, OPTICS_CONTROL_QUEUE_NAME
+    CAMERA_QUEUE_NAME, SATELITE_QUEUE_NAME, ORBIT_DRAWER_QUEUE_NAME, ZONE_CHECK_QUEUE_NAME, SECURITY_MONITOR_QUEUE_NAME
 
 
 class Camera(BaseCustomProcess):
@@ -60,13 +60,13 @@ class Camera(BaseCustomProcess):
                         sat_q.put(request)
                         self._log_message(LOG_DEBUG, "запрашиваем координаты снимка")
                     case 'camera_update':
-                        q: Queue = self._queues_dir.get_queue(OPTICS_CONTROL_QUEUE_NAME)
+                        q: Queue = self._queues_dir.get_queue(SECURITY_MONITOR_QUEUE_NAME)
                         lat, lon = event.parameters
                         q.put(
                             Event(
                                 source=self._event_source_name, 
-                                destination=OPTICS_CONTROL_QUEUE_NAME, 
-                                operation='post_photo', 
+                                destination=ZONE_CHECK_QUEUE_NAME,
+                                operation='check_photo',
                                 parameters=(lat, lon)))
                         self._log_message(LOG_DEBUG, f"создаем снимок ({lat}, {lon})")
             except Empty:

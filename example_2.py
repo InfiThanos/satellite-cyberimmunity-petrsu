@@ -44,8 +44,6 @@ def setup_system(queues_dir):
         log_level=LOG_DEBUG)
     
     return [sat, camera, drawer, optics_control]
-    
-
 
 if __name__ == '__main__':
     # В предыдущем примере события свободно помещались в очереди,
@@ -99,6 +97,7 @@ if __name__ == '__main__':
 
     # Теперь разрешим отправку операции update_photo_map с помощью политик безопасности
     queues_dir = QueuesDirectory()
+
     security_monitor = MySecurityMonitor(
         queues_dir=queues_dir, 
         log_level=LOG_DEBUG, 
@@ -128,7 +127,7 @@ if __name__ == '__main__':
                 source=None,
                 destination="camera",
                 operation="request_photo",
-                parameters=None))
+                 parameters=None))
     sleep(1)
     camera_q.put(
         Event(
