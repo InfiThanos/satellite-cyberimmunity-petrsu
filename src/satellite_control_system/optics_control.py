@@ -37,7 +37,7 @@ class OpticsControl(BaseCustomProcess):
                 # Получаем сообщение из очереди
                 event: Event = self._events_q.get_nowait()
 
-                # Проверяем, что сообщение принадлежит типу Event (см. файл event_types.py)
+                # Проверяем, что сообщение принадлежит типу Event (см. Файл event_types.py)
                 if not isinstance(event, Event):
                     return
                 

@@ -1,12 +1,14 @@
 from multiprocessing import Queue
 from queue import Empty
 
+import math
+
 from src.system.custom_process import BaseCustomProcess
 from src.system.queues_dir import QueuesDirectory
 from src.system.event_types import Event, ControlEvent
 from src.system.config import CRITICALITY_STR, LOG_DEBUG, \
     LOG_ERROR, LOG_INFO, DEFAULT_LOG_LEVEL, \
-    ORBIT_CONTROL_QUEUE_NAME, ORBIT_CHECK_QUEUE_NAME, SECURITY_MONITOR_QUEUE_NAME
+    ORBIT_CONTROL_QUEUE_NAME, ORBIT_CHECK_QUEUE_NAME, SATELITE_QUEUE_NAME, SECURITY_MONITOR_QUEUE_NAME
 
 
 class OrbitCheck(BaseCustomProcess):

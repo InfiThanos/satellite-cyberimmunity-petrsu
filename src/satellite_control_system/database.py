@@ -47,10 +47,15 @@ class DataBase(BaseCustomProcess):
                 # Проверяем вид операции и обрабатываем
                 match event.operation:
                     case 'add_zone':
-                        id, lon1, lat1, lon2, lat2 = = event.parameters
+                        id, lon1, lat1, lon2, lat2 = event.parameters
+
+                        if ((lat1 >= lat2) or (lon1 >= lon2)):
+                            self._log_message(LOG_ERROR, f"Некорректные координаты зоны, первая точка должна быть выше и левее второй")
+                            return
+
                         id_exists = False
                         try:
-                            with open(zone_file, 'r') as f:
+                            with open(self.zone_file, 'r') as f:
                                 for line in f:
                                     existing_id = line.split()[0]
                                     if existing_id == str(id):
@@ -60,7 +65,7 @@ class DataBase(BaseCustomProcess):
                             pass
 
                         if not id_exists:
-                            with open(zone_file, 'a') as f:
+                            with open(self.zone_file, 'a') as f:
                                 f.write(f"{id} {lon1} {lat1} {lon2} {lat2}\n")
                             self._log_message(LOG_DEBUG, f"добавляем новую зону ({id}, {lon1}, {lat1}, {lon2}, {lat2})")
                         else:
@@ -69,16 +74,17 @@ class DataBase(BaseCustomProcess):
                     case 'delete_zone':
                         id = event.parameters
                         try:
-                            with open(zone_file, 'r') as f:
+                            with open(self.zone_file, 'r') as f:
                                 lines = f.readlines()
 
                             new_lines = [line for line in lines if line.split()[0] != str(id)]
 
                             if len(new_lines) != len(lines):
-                                with open(zone_file, 'w') as f:
+                                with open(self.zone_file, 'w') as f:
                                     f.writelines(new_lines)
                                 self._log_message(LOG_DEBUG, f"зона успешно удалена")
-                            else self._log_message(LOG_ERROR, f"зона с ID {id} не найден! Запись не удалена")
+                            else:
+                                self._log_message(LOG_ERROR, f"зона с ID {id} не найден! Запись не удалена")
 
                         except FileNotFoundError:
                             self._log_message(LOG_DEBUG, f"файл не найден")
@@ -86,7 +92,7 @@ class DataBase(BaseCustomProcess):
                     case 'request_zone':
                         rectangles = []
                         try:
-                            with open(zone_file, 'r') as file:
+                            with open(self.zone_file, 'r') as file:
                                 for line in file:
                                     parts = line.strip().split()
                                     if len(parts) == 5:  # Проверяем, что строка содержит 5 значений
@@ -105,7 +111,7 @@ class DataBase(BaseCustomProcess):
 
                     case 'add_photo':
                         lat, lon = event.parameters
-                        with open(photo_file, 'a') as f:
+                        with open(self.photo_file, 'a') as f:
                             f.write(f"{lat} {lon}\n")
                         self._log_message(LOG_DEBUG, f"снимок сохранен в хранилище")
 
